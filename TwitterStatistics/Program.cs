@@ -20,9 +20,10 @@ namespace TwitterApp {
 
         public static async Task Main(string[] args) {
             try {
-                // Replace YOUR_API_KEY and YOUR_API_SECRET with your actual API key and API secret
+                // Add Bearer Token to all requests
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + BearerToken);
 
+                // Setup filtering rules
                 var payload = new {
                     add = new[] {
                         new {
@@ -32,9 +33,6 @@ namespace TwitterApp {
                             value = "\"#\""
                         }
                     },
-                    expansions = new[] {
-                        "author_id"
-                    },
                     user_fields = new[] {
                         "username"
                     }
@@ -43,7 +41,7 @@ namespace TwitterApp {
                 string json = JsonConvert.SerializeObject(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // Send the request
+                // Send the rules request
                 string url = "https://api.twitter.com/2/tweets/search/stream/rules";
                 using (HttpResponseMessage response = await client.PostAsync(url, content)) {
                     // Print the response status code
@@ -54,7 +52,7 @@ namespace TwitterApp {
                     Console.WriteLine(body);
                 }
 
-                // Start consuming the Twitter API stream endpoint
+                // Start consuming the Twitter filtered stream endpoint
                 string streamUrl = "https://api.twitter.com/2/tweets/sample/stream";
                 using (HttpResponseMessage response = await client.GetAsync(streamUrl, HttpCompletionOption.ResponseHeadersRead, CancellationToken.None))
                 using (var stream = await response.Content.ReadAsStreamAsync()) {
@@ -71,7 +69,7 @@ namespace TwitterApp {
             var cts = new CancellationTokenSource();
             var buffer = new byte[1024];
 
-            // Set up a timer to log the stats every 5 seconds
+            // Set up a timer to write log the stats every 5 seconds
             Timer statsTimer = new Timer(async (state) => {
                 Console.WriteLine($"Number of tweets received: {tweetCount}");
                 Console.WriteLine("Top 10 hashtags for this batch of tweets:");
@@ -89,7 +87,7 @@ namespace TwitterApp {
 
                     if (line != null && line.Contains("#")) {
                         // Process the line asynchronously
-                        _ = Task.Run(() => ProcessLineAsync(line));
+                        _ = Task.Run(() => ProcessTweetAsync(line));
                     }
                 }
             }
@@ -100,7 +98,7 @@ namespace TwitterApp {
             cts.Dispose();
         }
 
-        public static async Task ProcessLineAsync(string line) {
+        public static async Task ProcessTweetAsync(string line) {
             if (!string.IsNullOrEmpty(line)) {
                 // Parse the line as JSON
                 JObject tweet = JObject.Parse(line);
