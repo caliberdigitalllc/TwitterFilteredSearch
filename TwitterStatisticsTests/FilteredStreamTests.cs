@@ -10,10 +10,10 @@ namespace TwitterApp.Tests {
         [TestMethod]
         public async Task ProcessTweetAsync_WithValidInput_UpdatesHashtagsDictionary() {
             // Arrange
-            string line = "{\"data\":{\"entities\":{\"hashtags\":[{\"text\":\"hashtag1\"},{\"text\":\"hashtag2\"}]}}}";
+            string tweet = "{\"data\":{\"entities\":{\"hashtags\":[{\"text\":\"hashtag1\"},{\"text\":\"hashtag2\"}]}}}";
 
             // Act
-            await TwitterApp.Program.ProcessTweetAsync(line);
+            await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
             Assert.AreEqual(2, TwitterApp.Program.hashtags.Count);
@@ -22,51 +22,51 @@ namespace TwitterApp.Tests {
         }
 
         [TestMethod]
-        public async Task ProcessTweetAsync_WithNullLine_DoesNotUpdateHashtagsDictionary() {
+        public async Task ProcessTweetAsync_WithNullTweet_DoesNotUpdateHashtagsDictionary() {
             // Arrange
-            string line = null;
+            string tweet = null;
             int initialCount = TwitterApp.Program.hashtags.Count;
 
             // Act
-            await TwitterApp.Program.ProcessTweetAsync(line);
+            await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
             Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
         }
 
         [TestMethod]
-        public async Task ProcessTweetAsync_WithEmptyLine_DoesNotUpdateHashtagsDictionary() {
+        public async Task ProcessTweetAsync_WithEmptyTweet_DoesNotUpdateHashtagsDictionary() {
             // Arrange
-            string line = "";
+            string tweet = "";
             int initialCount = TwitterApp.Program.hashtags.Count;
 
             // Act
-            await TwitterApp.Program.ProcessTweetAsync(line);
+            await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
             Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
         }
 
         [TestMethod]
-        public async Task ProcessTweetAsync_WithLineWithoutHashtags_DoesNotUpdateHashtagsDictionary() {
+        public async Task ProcessTweetAsync_WithTweetWithoutHashtags_DoesNotUpdateHashtagsDictionary() {
             // Arrange
-            string line = "{\"data\":{\"entities\":{}}}";
+            string tweet = "{\"data\":{\"entities\":{}}}";
             int initialCount = TwitterApp.Program.hashtags.Count;
 
             // Act
-            await TwitterApp.Program.ProcessTweetAsync(line);
+            await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
             Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
         }
 
         [TestMethod]
-        public async Task ProcessTweetAsync_WithLineContainingDuplicateHashtags_UpdatesHashtagsDictionaryCorrectly() {
+        public async Task ProcessTweetAsync_WithTweetContainingDuplicateHashtags_UpdatesHashtagsDictionaryCorrectly() {
             // Arrange
-            string line = "{\"data\":{\"entities\":{\"hashtags\":[{\"text\":\"hashtag1\"},{\"text\":\"hashtag1\"},{\"text\":\"hashtag2\"}]}}}";
+            string tweet = "{\"data\":{\"entities\":{\"hashtags\":[{\"text\":\"hashtag1\"},{\"text\":\"hashtag1\"},{\"text\":\"hashtag2\"}]}}}";
 
             // Act
-            await TwitterApp.Program.ProcessTweetAsync(line);
+            await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
         }
