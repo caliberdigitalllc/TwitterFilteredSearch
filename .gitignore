@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TwitterStatistics/bin/Debug/net7.0
+/TwitterStatistics/obj
+/TwitterStatisticsTests/obj
+/TwitterStatisticsTests/bin/Debug/net7.0
