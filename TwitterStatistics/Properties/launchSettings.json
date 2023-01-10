@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "TwitterApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ApiKey": "A9T3bSOkxHmTAkUoIX6uxuTus",
+        "ApiKeySecret": "i2TB2I82A0i2NuaZHE73v1HyIyl3II8spR4miF8irvYFcGYKfB",
+        "AccessToken": "1543244911952158721-yrWbJ1WxN1TFZp2KGDhykNsc8Pvg3t",
+        "AccessTokenSecret": "A5CmfkVnYopFBniRB1LTi9Czg1mMRC2gRsnIxiqir2yNq",
+        "BearerToken": "AAAAAAAAAAAAAAAAAAAAADaNegEAAAAAqqz7q09IoLksI%2BB8NpX6V%2Fru04o%3DQfo7t5rn9GH8rl4nIAg6rayfs3BMba9y3rHLgfRGSREASZ62ZP"
+      }
+    }
+  }
+}
