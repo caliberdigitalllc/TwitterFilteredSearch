@@ -16,48 +16,48 @@ namespace TwitterApp.Tests {
             await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
-            Assert.AreEqual(2, TwitterApp.Program.hashtags.Count);
-            Assert.AreEqual(1, TwitterApp.Program.hashtags["hashtag1"]);
-            Assert.AreEqual(1, TwitterApp.Program.hashtags["hashtag2"]);
+            Assert.AreEqual(2, TwitterApp.Program._hashtags.Count);
+            Assert.AreEqual(1, TwitterApp.Program._hashtags["hashtag1"]);
+            Assert.AreEqual(1, TwitterApp.Program._hashtags["hashtag2"]);
         }
 
         [TestMethod]
         public async Task ProcessTweetAsync_WithNullTweet_DoesNotUpdateHashtagsDictionary() {
             // Arrange
             string tweet = null;
-            int initialCount = TwitterApp.Program.hashtags.Count;
+            int initialCount = TwitterApp.Program._hashtags.Count;
 
             // Act
             await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
-            Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
+            Assert.AreEqual(initialCount, TwitterApp.Program._hashtags.Count);
         }
 
         [TestMethod]
         public async Task ProcessTweetAsync_WithEmptyTweet_DoesNotUpdateHashtagsDictionary() {
             // Arrange
             string tweet = "";
-            int initialCount = TwitterApp.Program.hashtags.Count;
+            int initialCount = TwitterApp.Program._hashtags.Count;
 
             // Act
             await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
-            Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
+            Assert.AreEqual(initialCount, TwitterApp.Program._hashtags.Count);
         }
 
         [TestMethod]
         public async Task ProcessTweetAsync_WithTweetWithoutHashtags_DoesNotUpdateHashtagsDictionary() {
             // Arrange
             string tweet = "{\"data\":{\"entities\":{}}}";
-            int initialCount = TwitterApp.Program.hashtags.Count;
+            int initialCount = TwitterApp.Program._hashtags.Count;
 
             // Act
             await TwitterApp.Program.ProcessTweetAsync(tweet);
 
             // Assert
-            Assert.AreEqual(initialCount, TwitterApp.Program.hashtags.Count);
+            Assert.AreEqual(initialCount, TwitterApp.Program._hashtags.Count);
         }
 
         [TestMethod]
@@ -74,9 +74,9 @@ namespace TwitterApp.Tests {
         [TestMethod]
         public async Task GetTopHashtagsAsync_WithValidInput_ReturnsCorrectResult() {
             // Arrange
-            TwitterApp.Program.hashtags["hashtag1"] = 3;
-            TwitterApp.Program.hashtags["hashtag2"] = 2;
-            TwitterApp.Program.hashtags["hashtag3"] = 1;
+            TwitterApp.Program._hashtags["hashtag1"] = 3;
+            TwitterApp.Program._hashtags["hashtag2"] = 2;
+            TwitterApp.Program._hashtags["hashtag3"] = 1;
 
             // Act
             var result = await TwitterApp.Program.GetTopHashtagsAsync(10);
@@ -88,7 +88,7 @@ namespace TwitterApp.Tests {
         [TestMethod]
         public async Task GetTopHashtagsAsync_WithEmptyHashtagsDictionary_ReturnsEmptyResult() {
             // Arrange
-            TwitterApp.Program.hashtags.Clear();
+            TwitterApp.Program._hashtags.Clear();
 
             // Act
             var result = await TwitterApp.Program.GetTopHashtagsAsync(10);
